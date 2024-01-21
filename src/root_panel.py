@@ -6,10 +6,6 @@ import json
 import yaml
 import streamlit as st
 
-from src.chat_history import (
-    deserialize_messages
-)
-
 
 def root_panel():
     st.write("# 🤴🏻 ROOT PANEL")
@@ -76,12 +72,6 @@ def root_panel():
     read_user_chats_form.write("## Read user's chat history")
     read_user_chats_form.selectbox("Username", options=list_of_usernames, key="user_to_snoop", index=None)
 
-    if read_user_chats_form.form_submit_button(f"🤓 Load user's chats"):
-        if st.session_state.user_to_snoop is None:
-            st.error("Must select a user")
-        else:
-            load_user_chat_history(st.session_state.user_to_snoop)
-
 
 
 def create_new_user(list_of_usernames, username: str, password: str, force_for_password_change=False):
@@ -139,54 +129,3 @@ def delete_user(username: str):
 
     st.session_state.toast_message = f"deleting user: `{username}`"
     st.rerun()
-
-
-
-def load_user_chat_history(username: str):
-    if username in [None, ""]:
-        st.session_state.toast_message = "Select a user"
-        st.rerun()
-        return
-
-    runlog_dir = os.path.join(os.getcwd(), "runlog", username)
-    st.write(f"`{runlog_dir}`")
-
-    chat_history = []
-    try:
-        runlogs = os.listdir(runlog_dir)
-    except FileNotFoundError:
-        st.error(f"No chat history for user: `{username}`")
-        return
-
-    runlogs.sort(reverse=True)
-    for runlog in runlogs:
-        with open(os.path.join(runlog_dir, runlog), "r") as f:
-            try:
-                file_contents = json.load(f)
-                description = file_contents["description"]
-            except json.decoder.JSONDecodeError:
-                # file load error - skip this file
-                continue
-        chat_history.append((description, runlog))
-
-    if len(chat_history) == 0:
-        st.error(f"No chat history for user: `{username}`")
-        return
-
-    with st.container(border=True):
-        for ch in chat_history:
-            with st.expander(ch[0], expanded=False):
-                load_user_chat(runlog_dir=runlog_dir, chat_filename=ch[1])
-
-
-
-def load_user_chat(runlog_dir, chat_filename):
-    with open(os.path.join(runlog_dir, chat_filename), "r") as f:
-        file_contents = json.load(f)
-
-        messages = file_contents["messages"]
-        messages = [deserialize_messages(m) for m in messages]
-
-        for message in messages:
-            with st.chat_message(message.role):
-                st.markdown(message.content)

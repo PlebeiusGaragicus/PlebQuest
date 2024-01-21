@@ -4,7 +4,7 @@ import yaml
 import streamlit as st
 import streamlit_authenticator as stauth
 
-from src.common import ASSETS_PATH
+# from src.common import ASSETS_PATH
 
 from src.root_panel import root_panel
 from src.main import quest
@@ -53,3 +53,4 @@ def login_router_page():
             root_panel()
         else:
             # quest()
+            pass
