@@ -1,0 +1,10 @@
+python-dotenv
+
+streamlit
+streamlit-chat
+streamlit-authenticator
+
+gtts
+ollama
+openai
+mistralai

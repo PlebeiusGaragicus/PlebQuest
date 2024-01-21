@@ -1,0 +1,18 @@
+cookie:
+  expiry_days: 7
+  key: plebquestauth
+  name: plebquestauth
+credentials:
+  usernames:
+    charlie:
+      email: charlie@plebby.me
+      name: charlie
+      password: $2b$12$xv5diISpYVNROQey/5oi5edCmw6YcOZOjG5YgrG6o6TVGT9a7ap4u
+    root:
+      email: root@plebby.me
+      name: root
+      password: $2b$12$PEeL1QVZh37Wr0u9B.iOXebDYOoSUQz9K1ctSEtWoIYf6SrBJM2Ve
+    satoshi:
+      email: satoshi@plebby.me
+      name: satoshi
+      password: $2b$12$zZxszVM1G2HF41iBFM2ep..0XKS78HCLrRQWz4K0V.k8V8.5jFmDe
